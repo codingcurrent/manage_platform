@@ -1,6 +1,10 @@
-import { defineStore } from 'pinia';
-import {login, userInfo, logout} from '@/api/user'
-import type { loginForm, loginResponseData, userInfoResponseData } from "@/api/type";
+import { defineStore } from 'pinia'
+import { login, userInfo, logout } from '@/api/user'
+import type {
+  loginForm,
+  loginResponseData,
+  userInfoResponseData,
+} from '@/api/type'
 import { REMOVE_TOKEN, SET_TOKEN, GET_TOKEN } from '@/utils/token'
 import { constantRoutes } from '@/router/routes'
 
@@ -10,14 +14,14 @@ let userStore = defineStore('user', {
       token: GET_TOKEN(),
       menuRoutes: constantRoutes,
       username: '',
-      avatar: ''
+      avatar: '',
     }
   },
   actions: {
     // 登录接口
     async userLogin(data: loginForm) {
-      let result:loginResponseData = await login(data)
-      if(result.code === 200) {
+      let result: loginResponseData = await login(data)
+      if (result.code === 200) {
         this.token = result.data
         SET_TOKEN(result.data)
         return 'ok'
@@ -27,8 +31,8 @@ let userStore = defineStore('user', {
     },
     // 获取用户信息
     async getUserInfo() {
-      let result:userInfoResponseData = await userInfo()
-      if(result.code == 200) {
+      let result: userInfoResponseData = await userInfo()
+      if (result.code == 200) {
         this.username = result.data.name
         this.avatar = result.data.avatar
         return 'ok'
@@ -47,9 +51,9 @@ let userStore = defineStore('user', {
       } else {
         return Promise.reject(new Error(result.data))
       }
-    }
-  }
+    },
+  },
 })
 
 //对外暴露获取小仓库方法
-export default userStore;
+export default userStore

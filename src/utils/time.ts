@@ -6,11 +6,11 @@ export const getHour = () => {
     message = '凌晨'
   } else if (hours < 9) {
     message = '上午'
-  } else if(hours < 14) {
+  } else if (hours < 14) {
     message = '中午'
-  } else if(hours < 18) {
+  } else if (hours < 18) {
     message = '下午'
-  } else if(hours < 24) {
+  } else if (hours < 24) {
     message = '晚上'
   }
   return message

@@ -6,8 +6,8 @@ export const constantRoutes = [
     name: 'login',
     meta: {
       title: '登录',
-      hidden: true //代表路由标题在菜单中是否隐藏  true为隐藏
-    }
+      hidden: true, //代表路由标题在菜单中是否隐藏  true为隐藏
+    },
   },
   {
     path: '/',
@@ -21,13 +21,13 @@ export const constantRoutes = [
     children: [
       {
         path: '/home',
-        component: ()=> import('@/views/Home/index.vue'),
+        component: () => import('@/views/Home/index.vue'),
         meta: {
           title: '首页',
-          icon: 'HomeFilled'
-        }
-      }
-    ]
+          icon: 'HomeFilled',
+        },
+      },
+    ],
   },
   {
     path: '/screen',
@@ -35,8 +35,8 @@ export const constantRoutes = [
     name: '数字大屏',
     meta: {
       title: '数字大屏',
-      icon: 'Histogram'
-    }
+      icon: 'Histogram',
+    },
   },
   {
     path: '/404',
@@ -44,7 +44,7 @@ export const constantRoutes = [
     name: '404',
     meta: {
       title: '404',
-      hidden: true
+      hidden: true,
     },
   },
   {
@@ -63,8 +63,8 @@ export const constantRoutes = [
         name: 'permission',
         meta: {
           title: '菜单管理',
-          icon: 'Money'
-        }
+          icon: 'Money',
+        },
       },
       {
         path: '/acl/role',
@@ -72,8 +72,8 @@ export const constantRoutes = [
         name: 'role',
         meta: {
           title: '角色管理',
-          icon: 'Opportunity'
-        }
+          icon: 'Opportunity',
+        },
       },
       {
         path: '/acl/user',
@@ -81,10 +81,10 @@ export const constantRoutes = [
         name: 'user',
         meta: {
           title: '用户管理',
-          icon: 'Avatar'
-        }
-      }
-    ]
+          icon: 'Avatar',
+        },
+      },
+    ],
   },
   {
     path: '/product',
@@ -120,7 +120,7 @@ export const constantRoutes = [
         name: 'Spu',
         meta: {
           title: 'Spu管理',
-          icon: 'Magnet'
+          icon: 'Magnet',
         },
       },
       {
@@ -129,10 +129,10 @@ export const constantRoutes = [
         name: 'tradeMark',
         meta: {
           title: '品牌管理',
-          icon: 'ChromeFilled'
+          icon: 'ChromeFilled',
         },
       },
-    ]
+    ],
   },
   {
     path: '/:pathMatch(.*)*',
@@ -143,7 +143,7 @@ export const constantRoutes = [
       hidden: true,
       icon: 'DataLine',
     },
-  }
+  },
 ]
 
 export const asyncRoutes = [
@@ -163,8 +163,8 @@ export const asyncRoutes = [
         name: 'permission',
         meta: {
           title: '菜单管理',
-          icon: 'Monitor'
-        }
+          icon: 'Monitor',
+        },
       },
       {
         path: '/acl/role',
@@ -172,8 +172,8 @@ export const asyncRoutes = [
         name: 'role',
         meta: {
           title: '角色管理',
-          icon: 'UserFilled'
-        }
+          icon: 'UserFilled',
+        },
       },
       {
         path: '/acl/user',
@@ -181,10 +181,10 @@ export const asyncRoutes = [
         name: 'user',
         meta: {
           title: '用户管理',
-          icon: 'User'
-        }
-      }
-    ]
+          icon: 'User',
+        },
+      },
+    ],
   },
   {
     path: '/product',
@@ -220,7 +220,7 @@ export const asyncRoutes = [
         name: 'Spu',
         meta: {
           title: 'Spu管理',
-          icon: 'ChromeFilled'
+          icon: 'ChromeFilled',
         },
       },
       {
@@ -229,11 +229,11 @@ export const asyncRoutes = [
         name: 'tradeMark',
         meta: {
           title: '品牌管理',
-          icon: 'ChromeFilled'
+          icon: 'ChromeFilled',
         },
       },
-    ]
-  }
+    ],
+  },
 ]
 
 export const anyRoute = [
@@ -246,6 +246,5 @@ export const anyRoute = [
       hidden: true,
       icon: 'DataLine',
     },
-  }
+  },
 ]
-

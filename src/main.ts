@@ -11,10 +11,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { ElNotification } from 'element-plus'
 import '../permission'
 //大仓库
-import { createPinia } from 'pinia';
+import { createPinia } from 'pinia'
 //创建大仓库
-let pinia = createPinia();
-
+let pinia = createPinia()
 
 // 挂载
 let app = createApp(App)
@@ -28,7 +27,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 app.use(ElementPlus, {
-  locale: zhCn
+  locale: zhCn,
 })
 
 app.mount('#app')

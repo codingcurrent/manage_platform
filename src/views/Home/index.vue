@@ -12,10 +12,7 @@
   </div> -->
 </template>
 
-<script setup lang="ts">
-
-
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 .box {
@@ -42,7 +39,7 @@
     }
   }
 }
-.bottoms{
+.bottoms {
   margin-top: 10px;
   display: flex;
   justify-content: center;

@@ -6,16 +6,16 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 // 设置全局路由守卫：所有路由都遵循
-router.beforeEach(async(to:any, from:any, next) => {
+router.beforeEach(async (to: any, from: any, next) => {
   nprogress.start()
   const token = userStore().token
-  
+
   const username = userStore().username
-  if(token) {
-    if(to.path == '/login') {
+  if (token) {
+    if (to.path == '/login') {
       next('/home')
     } else {
-      if(username) {
+      if (username) {
         next()
       } else {
         try {
@@ -23,18 +23,18 @@ router.beforeEach(async(to:any, from:any, next) => {
           next(`${to.path}`)
         } catch (error) {
           await userStore().userLogout()
-          next({path: '/login', query: {redirect: to.path}})
+          next({ path: '/login', query: { redirect: to.path } })
         }
       }
     }
   } else {
-    if(to.path == '/login') {
+    if (to.path == '/login') {
       next()
     } else {
-      next({path: '/login', query: {redirect: to.path}})
+      next({ path: '/login', query: { redirect: to.path } })
     }
   }
-});
+})
 
 router.afterEach((to, from, next) => {
   nprogress.done()

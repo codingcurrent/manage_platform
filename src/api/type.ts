@@ -1,12 +1,12 @@
 export interface loginForm {
-  usrname: string,
+  usrname: string
   password: string
 }
 
 // 定义所有接口返回类型
 export interface responseData {
-  code: number,
-  message: string,
+  code: number
+  message: string
   ok: boolean
 }
 
