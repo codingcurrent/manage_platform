@@ -19,10 +19,10 @@ export default {
     display: flex;
     align-items: center;
     padding: 10px;
-    font-size: 12px;
+    font-size: 20px;
     img {
-      width: 30px;
-      padding-right: 5px;
+      width: 60px;
+      padding-right: 10px;
     }
   }
 </style>

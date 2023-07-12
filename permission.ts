@@ -9,7 +9,6 @@ import 'nprogress/nprogress.css'
 router.beforeEach(async(to:any, from:any, next) => {
   nprogress.start()
   const token = userStore().token
-  console.log(token, 'token在这里');
   
   const username = userStore().username
   if(token) {

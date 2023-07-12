@@ -3,7 +3,7 @@
     <div class="layout-left">
       <Logo class="layout-logo"/>
       <el-scrollbar class="scrollbar">
-        <Menu />
+        <Menu :menuList="useStore.menuRoutes"/>
       </el-scrollbar>
     </div>
     <div class="layout-right">
@@ -23,6 +23,9 @@ import Main from './main/index.vue'
 import Setting from './setting/index.vue'
 import Menu from './menu/index.vue'
 import Breadcrumb from './breadcrumb/index.vue'
+import userStore from '@/store/modules/user'
+
+let useStore = userStore()
 
 </script>
 <style scoped lang='scss'>
@@ -38,7 +41,7 @@ import Breadcrumb from './breadcrumb/index.vue'
       }
       .scrollbar {
         width: 100%;
-        height: calc(100vh - $base_layout_logo_height)
+        height: calc(100vh - $base_layout_logo_height);
       }
     }
     .layout-right {
@@ -48,6 +51,9 @@ import Breadcrumb from './breadcrumb/index.vue'
         height: $base_layout_logo_height;
         justify-content: space-between;
         align-items: center;
+        .layout-breadcrumb {
+          margin-left: 10px;
+        }
       }
       .layout-main {
         padding: 20px;

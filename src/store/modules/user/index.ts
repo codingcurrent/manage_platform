@@ -2,12 +2,13 @@ import { defineStore } from 'pinia';
 import {login, userInfo, logout} from '@/api/user'
 import type { loginForm, loginResponseData, userInfoResponseData } from "@/api/type";
 import { REMOVE_TOKEN, SET_TOKEN, GET_TOKEN } from '@/utils/token'
+import { constantRoutes } from '@/router/routes'
 
 let userStore = defineStore('user', {
   state: () => {
     return {
       token: GET_TOKEN(),
-      menuRoutes: [],
+      menuRoutes: constantRoutes,
       username: '',
       avatar: ''
     }

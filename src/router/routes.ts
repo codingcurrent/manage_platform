@@ -6,7 +6,6 @@ export const constantRoutes = [
     name: 'login',
     meta: {
       title: '登录',
-      icon: 'login',
       hidden: true //代表路由标题在菜单中是否隐藏  true为隐藏
     }
   },
@@ -32,11 +31,11 @@ export const constantRoutes = [
   },
   {
     path: '/screen',
-    component: () => import('@/views/Screen/index'),
+    component: () => import('@/views/Screen/index.vue'),
     name: '数字大屏',
     meta: {
       title: '数字大屏',
-      icon: 'digital'
+      icon: 'Histogram'
     }
   },
   {
@@ -45,8 +44,7 @@ export const constantRoutes = [
     name: '404',
     meta: {
       title: '404',
-      hidden: true,
-      icon: 'DocumentDelete',
+      hidden: true
     },
   },
   {
@@ -65,7 +63,7 @@ export const constantRoutes = [
         name: 'permission',
         meta: {
           title: '菜单管理',
-          icon: 'Monitor'
+          icon: 'Money'
         }
       },
       {
@@ -74,7 +72,7 @@ export const constantRoutes = [
         name: 'role',
         meta: {
           title: '角色管理',
-          icon: 'UserFilled'
+          icon: 'Opportunity'
         }
       },
       {
@@ -83,7 +81,7 @@ export const constantRoutes = [
         name: 'user',
         meta: {
           title: '用户管理',
-          icon: 'User'
+          icon: 'Avatar'
         }
       }
     ]
@@ -94,7 +92,7 @@ export const constantRoutes = [
     name: 'product',
     meta: {
       title: '商品管理',
-      icon: 'Goods',
+      icon: 'Box',
     },
     redirect: '/product/attr',
     children: [
@@ -113,7 +111,7 @@ export const constantRoutes = [
         name: 'Sku',
         meta: {
           title: 'Sku管理',
-          icon: 'ChromeFilled',
+          icon: 'Refrigerator',
         },
       },
       {
@@ -122,7 +120,7 @@ export const constantRoutes = [
         name: 'Spu',
         meta: {
           title: 'Spu管理',
-          icon: 'ChromeFilled'
+          icon: 'Magnet'
         },
       },
       {

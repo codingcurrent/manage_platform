@@ -102,11 +102,11 @@
     background-size: cover;
     .login_form {
       background-image: url('@/assets/images/login_form.png');
-      padding: 20px;
+      padding: 30px;
       position: relative;
-      top: 5vh;
-      left: 45vw;
-      width: 250px;
+      top: 40vh;
+      left: 15vw;
+      width: 25vw;
       h1 {
         font-size: 20px;
         color: yellow;

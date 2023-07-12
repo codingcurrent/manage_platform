@@ -9,7 +9,6 @@ let request = axios.create({
 
 request.interceptors.request.use(config => {
   const useStore = userStore()
-  console.log(useStore.token, 'useStore.token是啥');
   if(useStore.token) {
     config.headers.token = useStore.token
   }

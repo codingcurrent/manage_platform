@@ -1,31 +1,9 @@
 <template>
-  <div>Spu页面</div>
+  <div>spu
+  </div>
 </template>
 
-<script lang='ts'>
-import { reactive, toRefs, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted,onUpdated} from 'vue'
-export default {
-name:'',
-setup(){
-const data = reactive({
-})
-onBeforeMount(()=>{
-})
-onMounted(()=>{
-})
-onBeforeUpdate(()=>{
-})
-onUpdate(()=>{
-})
-onUnMount(()=>{
-})
-onBeforeUnMounted(()=>{
-})
-return {
-...toRefs(data),
-}
-}
-}
+<script setup lang='ts'>
 </script>
 <style scoped lang='scss'>
 </style>
