@@ -54,9 +54,10 @@ let useStore = userStore()
       }
     }
     .layout-main {
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
+      margin: 15px;
+      padding: 15px;
+      border: 1px solid #ecb9b9;
+      border-radius: 5px;
     }
   }
 }

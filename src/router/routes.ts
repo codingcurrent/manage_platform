@@ -125,7 +125,7 @@ export const constantRoutes = [
       },
       {
         path: '/product/tradeMark',
-        component: () => import('@/views/Product/tradeMark/index.vue'),
+        component: () => import('@/views/Product/TradeMark/index.vue'),
         name: 'tradeMark',
         meta: {
           title: '品牌管理',
