@@ -6,7 +6,7 @@ interface responseData {
 }
 
 // 品牌参数
-interface brand {
+export interface brand {
   id?: number
   logoUrl: string
   tmName: string

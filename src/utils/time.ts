@@ -1,7 +1,7 @@
 // 判断上中晚时间
 export const getHour = () => {
   let message = ''
-  let hours = new Date().getHours()
+  const hours = new Date().getHours()
   if (hours < 2) {
     message = '凌晨'
   } else if (hours < 9) {
