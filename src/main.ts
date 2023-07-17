@@ -13,10 +13,10 @@ import '../permission'
 //大仓库
 import { createPinia } from 'pinia'
 //创建大仓库
-let pinia = createPinia()
+const pinia = createPinia()
 
 // 挂载
-let app = createApp(App)
+const app = createApp(App)
 
 app.use(router)
 app.use(pinia)

@@ -8,7 +8,7 @@ import type {
 import { REMOVE_TOKEN, SET_TOKEN, GET_TOKEN } from '@/utils/token'
 import { constantRoutes } from '@/router/routes'
 
-let userStore = defineStore('user', {
+const userStore = defineStore('user', {
   state: () => {
     return {
       token: GET_TOKEN(),
@@ -20,7 +20,7 @@ let userStore = defineStore('user', {
   actions: {
     // 登录接口
     async userLogin(data: loginForm) {
-      let result: loginResponseData = await login(data)
+      const result: loginResponseData = await login(data)
       if (result.code === 200) {
         this.token = result.data
         SET_TOKEN(result.data)
@@ -31,7 +31,7 @@ let userStore = defineStore('user', {
     },
     // 获取用户信息
     async getUserInfo() {
-      let result: userInfoResponseData = await userInfo()
+      const result: userInfoResponseData = await userInfo()
       if (result.code == 200) {
         this.username = result.data.name
         this.avatar = result.data.avatar
@@ -42,7 +42,7 @@ let userStore = defineStore('user', {
     },
     // 退出登录接口
     async userLogout() {
-      let result = await logout()
+      const result = await logout()
       if (result.code == 200) {
         this.token = ''
         this.username = ''

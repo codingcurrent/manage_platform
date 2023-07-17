@@ -28,21 +28,21 @@ const useCategoryStore = defineStore('category', {
   },
   actions: {
     async getC1() {
-      let result: CategoryResponseData = await getCategory1()
+      const result: CategoryResponseData = await getCategory1()
       if (result.code == 200) {
         // 在pinia中，可通过this拿到store实例并提供类型支持
         this.c1Arr = result.data
       }
     },
     async getC2(val: number | string) {
-      let result: CategoryResponseData = await getCategory2(val)
+      const result: CategoryResponseData = await getCategory2(val)
       this.c1Id = val
       if (result.code == 200) {
         this.c2Arr = result.data
       }
     },
     async getC3() {
-      let result: CategoryResponseData = await getCategory3(this.c2Id)
+      const result: CategoryResponseData = await getCategory3(this.c2Id)
       if (result.code == 200) {
         this.c3Arr = result.data
       }

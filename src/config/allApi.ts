@@ -13,3 +13,8 @@ export const getCategory1Api = '/admin/product/getCategory1' // 查询一级分�
 export const getCategory2Api = '/admin/product/getCategory2/' // 查询二级分类接口
 export const getCategory3Api = '/admin/product/getCategory3/' // 查询三级分类接口
 export const attrInfoListApi = '/admin/product/attrInfoList/' // 查询分类下的所有属性列表
+
+// 权限管理相关
+export const queryAllUsersApi = '/admin/acl/user' // 查询用户角色列表
+export const getAllRolesApi = '/admin/acl/user/toAssign/' // 获取全部的职位的数据与当前用户已有的职位的数据
+export const deleteUserApi = '/admin/acl/user/remove' // 删除某用户
