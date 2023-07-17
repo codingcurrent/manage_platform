@@ -28,6 +28,22 @@ export interface rolesInfo {
   updateTime: string
 }
 
+// 用户角色列表
 export interface rolesInfoList extends responseData {
   data: rolesInfo[]
+}
+
+// 分配角色所传参数类型
+export interface setRole {
+  roleIdList: number[]
+  userId: number
+}
+
+// 用户信息列表
+export interface userInfoList {
+  id?: number
+  name?: string
+  password?: string
+  roleName?: string
+  username?: string
 }

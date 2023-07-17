@@ -11,6 +11,12 @@
     </el-form>
   </el-card>
   <el-card style="margin: 10px 0">
+    <el-button type="primary" @click="addUser" style="margin-bottom: 10px">
+      添加用户
+    </el-button>
+    <el-button type="primary" @click="deletePatch" style="margin-bottom: 10px">
+      批量删除用户
+    </el-button>
     <el-table border :data="useLists">
       <el-table-column type="selection"></el-table-column>
       <el-table-column label="#" type="index"></el-table-column>
@@ -43,11 +49,18 @@
             type="primary"
             size="small"
             icon="Pointer"
-            @click="assignRole(row.id)"
+            @click="assignRole(row)"
           >
             分配角色
           </el-button>
-          <el-button type="primary" size="small" icon="Edit">编辑</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="editUser(row)"
+          >
+            编辑
+          </el-button>
           <el-button
             type="primary"
             size="small"
@@ -80,14 +93,65 @@
           <el-input placeholder="请输入用户姓名"></el-input>
         </el-form-item>
         <el-form-item label="职位列表">
-          <el-input placeholder="请输入职位列表"></el-input>
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="isIndeterminate"
+            @change="handleCheckAllChange"
+          >
+            全选
+          </el-checkbox>
+          <el-checkbox-group
+            v-model="assignedRolesList"
+            @change="handleCheckedChange"
+          >
+            <el-checkbox
+              v-for="(item, index) in allRolesList"
+              :key="index"
+              :label="item"
+            >
+              {{ item.roleName }}
+            </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
       </el-form>
     </template>
     <template #footer>
       <div style="flex: auto">
         <el-button @click="assignDrawer = false">取消</el-button>
-        <el-button type="primary" @click="confirmClick">确定</el-button>
+        <el-button type="primary" @click="confirmClick()">确定</el-button>
+      </div>
+    </template>
+  </el-drawer>
+  <el-drawer v-model="addOrEditDrawer">
+    <template #header>
+      <h4>{{ userInfoForm.id ? '更新用户' : '添加用户' }}</h4>
+    </template>
+    <template #default>
+      <el-form :model="userInfoForm">
+        <el-form-item label="用户姓名">
+          <el-input
+            placeholder="请输入用户姓名"
+            v-model="userInfoForm.username"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户昵称">
+          <el-input
+            placeholder="请输入用户昵称"
+            v-model="userInfoForm.name"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码" v-if="!userInfoForm.id">
+          <el-input
+            placeholder="请输入用户密码"
+            v-model="userInfoForm.password"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="addOrEditDrawer = false">取消</el-button>
+        <el-button type="primary" @click="saveInfo">确定</el-button>
       </div>
     </template>
   </el-drawer>
@@ -95,8 +159,21 @@
 
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
-import { queryUserList, deleteUser, queryRoleList } from '@/api/acl/user'
-import type { userInfo, rolesInfo, rolesInfoList } from '@/api/acl/user/type'
+import {
+  queryUserList,
+  deleteUser,
+  queryRoleList,
+  assignRolesToUser,
+  addNewUser,
+  updateUser,
+} from '@/api/acl/user'
+import type {
+  userInfo,
+  rolesInfoList,
+  userInfoList,
+  setRole,
+  rolesInfo,
+} from '@/api/acl/user/type'
 import { ElMessage } from 'element-plus'
 
 onMounted(() => {
@@ -114,10 +191,26 @@ let useLists = ref<userInfo>([])
 let searchText = ref<string>('')
 // 分配角色控制
 let assignDrawer = ref<boolean>(false)
+// 添加或编辑用户控制
+let addOrEditDrawer = ref<boolean>(false)
+// 要分配角色的用户id
+let assignId = ref<number>(0)
+// 用户信息
+let userInfoForm = reactive<userInfoList>({
+  id: 0,
+  name: '',
+  password: '',
+  roleName: '',
+  username: '',
+})
 // 所有用户角色
-let allRolesList = ref([])
+let allRolesList = ref<rolesInfoList>([])
 // 当前用户拥有角色
-let assignedRolesList = ref([])
+let assignedRolesList = ref<rolesInfoList>([])
+// 是否全选
+let checkAll = ref<boolean>(false)
+// 是否半选
+let isIndeterminate = ref<boolean>(false)
 // 查询用户列表
 const getUserList = async () => {
   let result = await queryUserList(
@@ -136,21 +229,20 @@ const resetList = () => {
   getUserList()
 }
 // 页码改变
-const handleCurrentChange = (val) => {
-  getUserList(currentPage.value, pageSize.value)
+const handleCurrentChange = (val: number) => {
+  getUserList()
 }
 // 页数改变
-const handleSizeChange = (val) => {
-  getUserList(currentPage.value, pageSize.value)
+const handleSizeChange = (val: number) => {
+  getUserList()
 }
-// 分配角色
-const assignRole = async (userId) => {
+// 分配角色控制
+const assignRole = async (val: userInfoList) => {
   assignDrawer.value = true
-  let result: rolesInfoList = await queryRoleList(userId)
-  console.log(result, 'result是啥')
-  let allRolesList: rolesInfo = result.data.allRolesList
-  let assignedRolesList: rolesInfo = result.data.assignRoles
-  console.log(allRolesList, assignedRolesList)
+  let result: rolesInfoList = await queryRoleList(val.id)
+  assignId.value = val.id
+  allRolesList.value = result.data.allRolesList
+  assignedRolesList.value = result.data.assignRoles
 }
 // 删除角色
 const deleteRole = async (id: number) => {
@@ -162,6 +254,81 @@ const deleteRole = async (id: number) => {
     })
     getUserList()
   }
+}
+// 全选
+const handleCheckAllChange = (val: boolean) => {
+  val
+    ? (assignedRolesList.value = allRolesList.value)
+    : (assignedRolesList.value = [])
+  isIndeterminate.value = false
+}
+// 多选框事件
+const handleCheckedChange = (val: []) => {
+  assignedRolesList.value = val
+  isIndeterminate.value = val.length !== assignedRolesList.value.length
+}
+// 分配角色提交
+const confirmClick = async () => {
+  let setUser = []
+  setUser = assignedRolesList.value.map((item) => item.id)
+  let data: setRole = {
+    roleIdList: setUser,
+    userId: assignId.value,
+  }
+  let result: any = await assignRolesToUser(data)
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: '用户角色分配成功',
+    })
+    assignDrawer.value = false
+    getUserList()
+  } else {
+    ElMessage({
+      type: 'success',
+      message: '用户角色分配失败',
+    })
+  }
+}
+// 添加用户
+const addUser = () => {
+  addOrEditDrawer.value = true
+  Object.assign(userInfoForm, {
+    id: 0,
+    name: '',
+    password: '',
+    roleName: '',
+    username: '',
+  })
+}
+// 编辑某用户
+const editUser = (row: userInfoList) => {
+  addOrEditDrawer.value = true
+  Object.assign(userInfoForm, row)
+}
+// 保存新增/编辑用户
+const saveInfo = async () => {
+  let result = []
+  userInfoForm.id
+    ? (result = await updateUser(userInfoForm))
+    : (result = await addNewUser(userInfoForm))
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: userInfoForm.id ? '用户新增成功' : '用户修改成功',
+    })
+    addOrEditDrawer.value = false
+    getUserList()
+  } else {
+    ElMessage({
+      type: 'error',
+      message: userInfoForm.id ? '用户新增失败' : '用户修改失败',
+    })
+  }
+}
+// 批量删除用户
+const deletePatch = () => {
+  console.log('批量删除用户待开发～')
 }
 </script>
 

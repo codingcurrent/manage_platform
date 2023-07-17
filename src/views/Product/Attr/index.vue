@@ -9,7 +9,11 @@
           width="80px"
         ></el-table-column>
         <el-table-column label="属性名称" prop="attrName"></el-table-column>
-        <el-table-column label="属性值名称" prop="attrName"></el-table-column>
+        <el-table-column
+          label="属
+        性值名称"
+          prop="attrName"
+        ></el-table-column>
         <el-table-column label="操作">
           <template default="scoped">
             <el-button
@@ -39,11 +43,15 @@ watch(
     attrInfoList = []
     //保证三级分类得有才能发请求
     if (!categoryStore.c3Id) return
+
     //获取分类的ID
     queryAllAtrr()
   },
+  // {immediate: true, deep: true}
 )
 const queryAllAtrr = async () => {
+  console.log(`queryAllAtrr()...`)
+
   let result: attrInfoLists = await getAttrInfoList(
     categoryStore.c1Id,
     categoryStore.c2Id,
@@ -51,8 +59,8 @@ const queryAllAtrr = async () => {
   )
   if (result.code == 200) {
     attrInfoList = result.data
+    console.log('attrInfoList', attrInfoList)
   }
-  console.log(attrInfoList, 'attrInfoListsss')
 }
 // 删除属性
 const deleteAttr = (val) => {

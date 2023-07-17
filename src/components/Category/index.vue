@@ -22,7 +22,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="三级分类">
-        <el-select v-model="categoryStore.c3Id" @change="queryAllAtrr">
+        <el-select v-model="categoryStore.c3Id">
           <el-option
             v-for="item in categoryStore.c3Arr"
             :key="item.id"
