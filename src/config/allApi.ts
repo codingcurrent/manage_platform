@@ -23,6 +23,11 @@ export const updateUserApi = '/admin/acl/user/update' // 更新用户
 export const batchDeleteApi = '/admin/acl/user/batchRemove' // 批量删除用户
 export const deleteUserApi = '/admin/acl/user/remove' // 删除某用户
 
+export const getRolesApi = '/admin/acl/role' // 获取全部职位
+export const addNewRoleApi = '/admin/acl/role/save' // 保存新增职位
+export const updateRoleApi = '/admin/acl/role/update' // 更新已有职位
+export const deleteRoleApi = '/admin/acl/role/remove/' // 删除某职位
+
 export const menuListApi = '/admin/acl/permission' // 获取所有的菜单
 export const saveNewMenuApi = '/admin/acl/permission/save' // 保存新增菜单
 export const updateMenuApi = '/admin/acl/permission/update' // 修改菜单信息

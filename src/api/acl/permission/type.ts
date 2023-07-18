@@ -32,3 +32,12 @@ export interface menuForm {
   pid: number
   level: number
 }
+// 添加/编辑职位表单数据
+export interface roleForm {
+  id?: number
+  roleName: string
+}
+// 职位列表
+export interface roleList extends responseData {
+  data: roleForm[]
+}
