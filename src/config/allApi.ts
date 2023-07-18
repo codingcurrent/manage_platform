@@ -22,3 +22,8 @@ export const addNewUserApi = '/admin/acl/user/save' // 新增用户
 export const updateUserApi = '/admin/acl/user/update' // 更新用户
 export const batchDeleteApi = '/admin/acl/user/batchRemove' // 批量删除用户
 export const deleteUserApi = '/admin/acl/user/remove' // 删除某用户
+
+export const menuListApi = '/admin/acl/permission' // 获取所有的菜单
+export const saveNewMenuApi = '/admin/acl/permission/save' // 保存新增菜单
+export const updateMenuApi = '/admin/acl/permission/update' // 修改菜单信息
+export const deleteMenuApi = '/admin/acl/permission/remove' // 删除某个菜单
