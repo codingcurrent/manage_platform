@@ -17,7 +17,7 @@ export interface recordsObj {
 export interface CategoryResponseData extends responseData {
   data: recordsObj[]
 }
-
+// 属性值列表类型
 export interface attrInfo {
   attrId: number
   id: number
@@ -26,6 +26,17 @@ export interface attrInfo {
 
 // 利用type为变量起别名
 export type AttrInfo = attrInfo[]
+
+// 属性对象
+export interface attrInfoObject extends responseData {
+  attrName: string
+  attrValueList: AttrInfo
+  categoryId: number
+  categoryLevel: number
+  createTime: string
+  id: number
+  updateTime: string
+}
 export interface attrInfoLists extends responseData {
-  data: AttrInfo
+  data: attrInfoObject[]
 }
