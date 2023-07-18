@@ -6,6 +6,7 @@ import {
   assignRolesApi,
   addNewUserApi,
   updateUserApi,
+  batchDeleteApi,
 } from '@/config/allApi'
 import { userListResponseData, setRole, userInfoList } from './type'
 // 查询用户列表
@@ -28,6 +29,11 @@ export const addNewUser = (data: userInfoList) =>
 // 更新用户
 export const updateUser = (data: userInfoList) =>
   request.put<any, any>(updateUserApi, data)
+
+// 批量删除用户
+export const batchDelete = (idList: number[]) => {
+  return request.delete<any, any>(batchDeleteApi, { data: idList })
+}
 // 删除某用户
 export const deleteUser = (id: number) =>
   request.delete<any, any>(deleteUserApi + `/${id}`)

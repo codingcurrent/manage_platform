@@ -1,8 +1,8 @@
 <template>
   <el-card>
     <el-form :inline="true" class="search-area">
-      <el-form-item label="用户名：">
-        <el-input placeholder="请输入用户名" v-model="searchText"></el-input>
+      <el-form-item label="用户名称：">
+        <el-input placeholder="请输入用户名称" v-model="searchText"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getUserList">搜索</el-button>
@@ -17,16 +17,16 @@
     <el-button type="primary" @click="deletePatch" style="margin-bottom: 10px">
       批量删除用户
     </el-button>
-    <el-table border :data="useLists">
+    <el-table border :data="useLists" @selection-change="selectionChange">
       <el-table-column type="selection"></el-table-column>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column label="ID" prop="id"></el-table-column>
       <el-table-column
-        label="用户名字"
+        label="用户名称"
         prop="name"
         aline="center"
       ></el-table-column>
-      <el-table-column label="用户名称" prop="username"></el-table-column>
+      <el-table-column label="用户昵称" prop="username"></el-table-column>
       <el-table-column
         label="用户角色"
         prop="roleName"
@@ -89,8 +89,11 @@
     </template>
     <template #default>
       <el-form>
-        <el-form-item label="用户姓名">
-          <el-input placeholder="请输入用户姓名"></el-input>
+        <el-form-item label="用户名称">
+          <el-input
+            placeholder="请输入用户名称"
+            v-model="userInfoForm.name"
+          ></el-input>
         </el-form-item>
         <el-form-item label="职位列表">
           <el-checkbox
@@ -127,20 +130,20 @@
       <h4>{{ userInfoForm.id ? '更新用户' : '添加用户' }}</h4>
     </template>
     <template #default>
-      <el-form :model="userInfoForm">
-        <el-form-item label="用户姓名">
+      <el-form :model="userInfoForm" :rules="rules" ref="userInfoRef">
+        <el-form-item label="用户名称" prop="name">
           <el-input
-            placeholder="请输入用户姓名"
-            v-model="userInfoForm.username"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="用户昵称">
-          <el-input
-            placeholder="请输入用户昵称"
+            placeholder="请输入用户名称"
             v-model="userInfoForm.name"
           ></el-input>
         </el-form-item>
-        <el-form-item label="用户密码" v-if="!userInfoForm.id">
+        <el-form-item label="用户昵称" prop="username">
+          <el-input
+            placeholder="请输入用户昵称"
+            v-model="userInfoForm.username"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码" v-if="!userInfoForm.id" prop="password">
           <el-input
             placeholder="请输入用户密码"
             v-model="userInfoForm.password"
@@ -158,7 +161,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, nextTick } from 'vue'
 import {
   queryUserList,
   deleteUser,
@@ -166,6 +169,7 @@ import {
   assignRolesToUser,
   addNewUser,
   updateUser,
+  batchDelete,
 } from '@/api/acl/user'
 import type {
   userInfo,
@@ -203,6 +207,15 @@ let userInfoForm = reactive<userInfoList>({
   roleName: '',
   username: '',
 })
+let selectArr = ref([])
+// 表单
+let userInfoRef = ref('')
+// 新增或编辑表单规则（可补充更复杂校验功能~）
+let rules = {
+  username: [{ required: true, message: '请输入用户昵称', trigger: 'blur' }],
+  name: [{ required: true, message: '请输入用户名称', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
+}
 // 所有用户角色
 let allRolesList = ref<rolesInfoList>([])
 // 当前用户拥有角色
@@ -238,6 +251,7 @@ const handleSizeChange = (val: number) => {
 }
 // 分配角色控制
 const assignRole = async (val: userInfoList) => {
+  Object.assign(userInfoForm, val)
   assignDrawer.value = true
   let result: rolesInfoList = await queryRoleList(val.id)
   assignId.value = val.id
@@ -300,11 +314,20 @@ const addUser = () => {
     roleName: '',
     username: '',
   })
+  nextTick(() => {
+    userInfoRef.value.clearValidate('name')
+    userInfoRef.value.clearValidate('username')
+    userInfoRef.value.clearValidate('password')
+  })
 }
 // 编辑某用户
 const editUser = (row: userInfoList) => {
   addOrEditDrawer.value = true
   Object.assign(userInfoForm, row)
+  nextTick(() => {
+    userInfoRef.value.clearValidate('username')
+    userInfoRef.value.clearValidate('name')
+  })
 }
 // 保存新增/编辑用户
 const saveInfo = async () => {
@@ -326,9 +349,33 @@ const saveInfo = async () => {
     })
   }
 }
+// 选择项变化
+const selectionChange = (val: any) => {
+  selectArr.value = val
+}
 // 批量删除用户
-const deletePatch = () => {
-  console.log('批量删除用户待开发～')
+const deletePatch = async () => {
+  let selected = selectArr.value.map((item) => item.id)
+  if (selected.length) {
+    let result = await batchDelete(selected)
+    if (result.code == 200) {
+      ElMessage({
+        type: 'success',
+        message: '批量删除用户成功~',
+      })
+      getUserList()
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '批量删除用户失败~',
+      })
+    }
+  } else {
+    ElMessage({
+      type: 'warning',
+      message: '请先选择要删除的用户！',
+    })
+  }
 }
 </script>
 

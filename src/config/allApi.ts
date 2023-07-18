@@ -20,4 +20,5 @@ export const getAllRolesApi = '/admin/acl/user/toAssign/' // 获取全部的职�
 export const assignRolesApi = '/admin/acl/user/doAssignRole' // 给用户分配角色
 export const addNewUserApi = '/admin/acl/user/save' // 新增用户
 export const updateUserApi = '/admin/acl/user/update' // 更新用户
+export const batchDeleteApi = '/admin/acl/user/batchRemove' // 批量删除用户
 export const deleteUserApi = '/admin/acl/user/remove' // 删除某用户
