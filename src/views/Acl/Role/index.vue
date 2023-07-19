@@ -83,38 +83,18 @@
   />
   <el-drawer v-model="assignDrawer">
     <template #header>
-      <h4>分配角色</h4>
+      <h4>分配菜单与按钮权限</h4>
     </template>
     <template #default>
-      <el-form>
-        <el-form-item label="用户名称">
-          <el-input
-            placeholder="请输入用户名称"
-            v-model="roleInfoForm.name"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="职位列表">
-          <el-checkbox
-            v-model="checkAll"
-            :indeterminate="isIndeterminate"
-            @change="handleCheckAllChange"
-          >
-            全选
-          </el-checkbox>
-          <el-checkbox-group
-            v-model="assignedRolesList"
-            @change="handleCheckedChange"
-          >
-            <el-checkbox
-              v-for="(item, index) in allRolesList"
-              :key="index"
-              :label="item"
-            >
-              {{ item.roleName }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
+      <el-tree
+        ref="tree"
+        :data="assignedMenusList"
+        :props="props"
+        show-checkbox
+        node-key="id"
+        default-expand-all
+        :default-checked-keys="assignArr"
+      />
     </template>
     <template #footer>
       <div style="flex: auto">
@@ -153,16 +133,18 @@ import {
   deleteRole,
   saveRole,
   updateRole,
-  // queryRoleList,
-  // assignRolesToUser,
+  queryMenuList,
+  saveAssignMenu,
 } from '@/api/acl/permission'
 import type {
-  roleList,
   roleForm,
-  rolesInfoList,
-  userInfoList,
-  setRole,
-} from '@/api/acl/user/type'
+  // rolesInfoList,
+  // userInfoList,
+  // setRole,
+  setMenu,
+  RolesList,
+  RolesListResponse,
+} from '@/api/acl/permission/type'
 import { ElMessage } from 'element-plus'
 
 onMounted(() => {
@@ -198,8 +180,16 @@ let rules = {
 }
 // 所有职位
 let allRolesList = ref<rolesInfoList>([])
-// 当前用户拥有角色
-let assignedRolesList = ref<rolesInfoList>([])
+// 当前用户拥有的菜单权限接口返回数据
+let assignedMenusList = ref<RolesList>([])
+// 当前用户拥有的菜单权限数组
+let assignArr = ref<number[]>([])
+// 权限列表显示
+const props = {
+  label: 'name',
+  children: 'children',
+}
+let tree = ref('')
 // 查询用户列表
 const getRoleList = async () => {
   let result = await getRolesList(
@@ -225,14 +215,27 @@ const handleCurrentChange = (val: number) => {
 const handleSizeChange = (val: number) => {
   getRoleList()
 }
-// 分配角色控制
-const assignRole = async (val: userInfoList) => {
-  Object.assign(roleInfoForm, val)
+// 分配权限控制
+const assignRole = async (val: setMenu) => {
   assignDrawer.value = true
-  let result: rolesInfoList = await queryRoleList(val.id)
-  assignId.value = val.id
-  allRolesList.value = result.data.allRolesList
-  assignedRolesList.value = result.data.assignRoles
+  roleInfoForm.id = val.id
+  let result: RolesListResponse = await queryMenuList(val.id)
+  if (result.code == 200) {
+    assignedMenusList.value = result.data
+    assignArr.value = filterAssignId(assignedMenusList.value, [])
+  }
+}
+// 过滤菜单权限
+const filterAssignId = (arr, filterResult: any) => {
+  arr.forEach((item) => {
+    if (item.select && item.level == 4) {
+      filterResult.push(item.id)
+    }
+    if (item.children && item.children.length > 0) {
+      filterAssignId(item.children, filterResult)
+    }
+  })
+  return filterResult
 }
 // 删除角色
 const deletes = async (id: number) => {
@@ -245,27 +248,24 @@ const deletes = async (id: number) => {
     getRoleList()
   }
 }
-
 // 分配角色提交
 const confirmClick = async () => {
-  let setUser = []
-  setUser = assignedRolesList.value.map((item) => item.id)
-  let data: setRole = {
-    roleIdList: setUser,
-    userId: assignId.value,
-  }
-  let result: any = await assignRolesToUser(data)
+  let checkedKey = tree.value.getCheckedKeys()
+  let halfCheckedKey = tree.value.getHalfCheckedKeys()
+  // console.log();
+  let permissionId = checkedKey.concat(halfCheckedKey)
+  let result: any = await saveAssignMenu(roleInfoForm.id, permissionId)
   if (result.code == 200) {
     ElMessage({
       type: 'success',
-      message: '用户角色分配成功',
+      message: '用户权限分配成功',
     })
     assignDrawer.value = false
     getRoleList()
   } else {
     ElMessage({
       type: 'success',
-      message: '用户角色分配失败',
+      message: '用户权限分配失败',
     })
   }
 }

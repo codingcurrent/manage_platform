@@ -32,3 +32,5 @@ export const menuListApi = '/admin/acl/permission' // 获取所有的菜单
 export const saveNewMenuApi = '/admin/acl/permission/save' // 保存新增菜单
 export const updateMenuApi = '/admin/acl/permission/update' // 修改菜单信息
 export const deleteMenuApi = '/admin/acl/permission/remove' // 删除某个菜单
+export const assignApi = '/admin/acl/permission/toAssign' // 给菜单分配权限
+export const saveAssignMenuApi = '/admin/acl/permission/save' // 保存分配菜单

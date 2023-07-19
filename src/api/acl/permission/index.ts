@@ -9,8 +9,10 @@ import {
   deleteRoleApi,
   addNewRoleApi,
   updateRoleApi,
+  assignApi,
+  saveAssignMenuApi,
 } from '@/config/allApi'
-import type { menuForm, roleForm } from './type'
+import type { menuForm, roleForm, setMenu } from './type'
 
 export const getMenuList = () => request.get(menuListApi) // 获取所有菜单
 export const saveNewMenu = (data: menuForm) =>
@@ -25,3 +27,8 @@ export const saveRole = (data: roleForm) => request.post(addNewRoleApi, data) //
 export const updateRole = (data: roleForm) => request.put(updateRoleApi, data)
 export const deleteRole = (id: number) =>
   request.delete(deleteRoleApi + `${id}`) // 删除某职位
+export const queryMenuList = (id: number) => request.get(assignApi + `/${id}`) // 某id下的菜单权限
+export const saveAssignMenu = (roleId: number, permissionId: number[]) =>
+  request.post(
+    saveAssignMenuApi + `?roleId=${roleId}&permissionId=${permissionId}`,
+  )
