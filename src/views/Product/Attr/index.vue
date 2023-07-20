@@ -13,11 +13,23 @@
           width="80px"
         ></el-table-column>
         <el-table-column label="属性名称" prop="attrName"></el-table-column>
-        <el-table-column
-          label="属
-        性值名称"
-          prop="attrName"
-        ></el-table-column>
+        <el-table-column label="属性值名称" prop="attrName">
+          <template #="{ row, index }">
+            <span v-for="item in row.attrValueList">
+              <el-tag
+                v-if="item.valueName"
+                :key="item.id"
+                class="mx-1"
+                effect="light"
+                round
+                type="danger"
+                style="margin-right: 5px"
+              >
+                {{ item.valueName }}
+              </el-tag>
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template #="{ row, index }">
             <el-button
@@ -72,8 +84,10 @@
 import Category from '@/components/Category/index.vue'
 import { ref, watch } from 'vue'
 import type { attrInfoLists, attrInfoObject } from '@/api/product/attr/type'
-import { getAttrInfoList } from '@/api/product/attr/index'
+import { getAttrInfoList, deleteAttValue } from '@/api/product/attr/index'
 import useCategoryStore from '@/store/modules/category/index'
+import { ElMessage } from 'element-plus'
+
 let categoryStore = useCategoryStore()
 // 属性列表
 let attrInfoList = ref<attrInfoLists>([])
@@ -106,8 +120,20 @@ const queryAllAtrr = async () => {
   }
 }
 // 删除属性
-const deleteAttr = (val) => {
-  console.log(val, '删除')
+const deleteAttr = async (val) => {
+  let result: any = await deleteAttValue(val.id)
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: '已成功删除属性值！',
+    })
+    queryAllAtrr()
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '删除属性值失败！',
+    })
+  }
 }
 // 编辑属性
 const editAttr = (val) => {
