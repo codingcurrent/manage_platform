@@ -6,8 +6,12 @@ import {
   getCategory3Api,
   attrInfoListApi,
   deleteAttValueApi,
+  saveAttrInfoApi,
 } from '@/config/allApi'
-import type { CategoryResponseData } from '@/api/product/attr/type'
+import type {
+  CategoryResponseData,
+  attrInfoObject,
+} from '@/api/product/attr/type'
 
 export const getCategory1 = () =>
   request.get<any, CategoryResponseData>(getCategory1Api)
@@ -27,4 +31,8 @@ export const getAttrInfoList = (
 // 删除某商品分类下的某条属性
 export const deleteAttValue = (attrId: number) => {
   return request.delete<any, any>(deleteAttValueApi + `${attrId}`)
+}
+// 保存属性
+export const saveAttrInfo = (data: attrInfoObject) => {
+  return request.post(saveAttrInfoApi, data)
 }

@@ -19,11 +19,12 @@ export interface CategoryResponseData extends responseData {
 }
 // 属性值列表类型
 export interface attrInfo {
-  attrId: number
-  id: number
+  attrId?: number
+  id?: number
   valueName: string
+  // 为每行数据添加展示或编辑控件
+  showOrEdit: boolean
 }
-
 // 利用type为变量起别名
 export type AttrInfo = attrInfo[]
 
@@ -33,9 +34,9 @@ export interface attrInfoObject extends responseData {
   attrValueList: AttrInfo
   categoryId: number
   categoryLevel: number
-  createTime: string
-  id: number
-  updateTime: string
+  createTime?: string
+  id?: number
+  updateTime?: string
 }
 export interface attrInfoLists extends responseData {
   data: attrInfoObject[]

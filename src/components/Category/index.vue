@@ -2,7 +2,7 @@
   <el-card>
     <el-form form="category" :inline="true">
       <el-form-item label="一级分类">
-        <el-select v-model="c1Id" @change="queryC2(c1Id)">
+        <el-select v-model="c1Id" @change="queryC2(c1Id)" :disabled="flag == 1">
           <el-option
             v-for="item in categoryStore.c1Arr"
             :key="item.id"
@@ -12,7 +12,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="二级分类">
-        <el-select v-model="categoryStore.c2Id" @change="queryC3">
+        <el-select
+          v-model="categoryStore.c2Id"
+          @change="queryC3"
+          :disabled="flag == 1"
+        >
           <el-option
             v-for="item in categoryStore.c2Arr"
             :key="item.id"
@@ -22,7 +26,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="三级分类">
-        <el-select v-model="categoryStore.c3Id">
+        <el-select v-model="categoryStore.c3Id" :disabled="flag == 1">
           <el-option
             v-for="item in categoryStore.c3Arr"
             :key="item.id"
@@ -39,6 +43,8 @@
 import { ref, onMounted, reactive } from 'vue'
 import useCategoryStore from '@/store/modules/category/index'
 
+// 接收props用于场景变化时控制disabled
+defineProps(['flag'])
 let categoryStore = useCategoryStore()
 let c1Id = ref<number | string>('')
 
