@@ -10,6 +10,8 @@ import '@/styles/index.scss' // 引入全局样式
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { ElNotification } from 'element-plus'
 import '../permission'
+//暗黑模式需要的样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
 //大仓库
 import { createPinia } from 'pinia'
 //创建大仓库
