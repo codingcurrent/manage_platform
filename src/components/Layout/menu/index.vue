@@ -1,7 +1,7 @@
 <template>
   <template v-for="(item, index) in menuList" key="item.path">
     <el-menu
-      v-if="!item.meta.hidden"
+      v-if="!item.meta?.hidden"
       background-color="rgb(31, 31, 31)"
       text-color="white"
       :default-active="$route.path"
@@ -10,17 +10,17 @@
       <!-- 没有子路由 -->
       <el-menu-item v-if="!item.children" :index="item.path" @click="go">
         <el-icon>
-          <component :is="item.meta.icon"></component>
+          <component :is="item.meta?.icon"></component>
         </el-icon>
-        {{ item.meta.title }}
+        {{ item.meta?.title }}
       </el-menu-item>
       <!-- 仅有一个子路由 -->
       <template v-if="item.children && item.children.length == 1">
         <el-menu-item :index="item.path" @click="go">
           <el-icon>
-            <component :is="item.children[0].meta.icon"></component>
+            <component :is="item.children[0].meta?.icon"></component>
           </el-icon>
-          {{ item.children[0].meta.title }}
+          {{ item.children[0].meta?.title }}
         </el-menu-item>
       </template>
       <!-- 有多于一个的子路由 -->

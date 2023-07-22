@@ -3,7 +3,7 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/System/Login/index.vue'),
-    name: 'login',
+    name: 'Login',
     meta: {
       title: '登录',
       hidden: true, //代表路由标题在菜单中是否隐藏  true为隐藏
@@ -12,7 +12,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: () => import('@/components/Layout/index.vue'),
-    name: 'layout',
+    name: 'Layout',
     meta: {
       title: '',
       icon: '',
@@ -32,7 +32,7 @@ export const constantRoutes = [
   {
     path: '/screen',
     component: () => import('@/views/Screen/index.vue'),
-    name: '数字大屏',
+    name: 'Histogram',
     meta: {
       title: '数字大屏',
       icon: 'Histogram',
@@ -47,110 +47,13 @@ export const constantRoutes = [
       hidden: true,
     },
   },
-  {
-    path: '/acl',
-    component: () => import('@/components/Layout/index.vue'),
-    name: 'acl',
-    meta: {
-      title: '权限管理',
-      icon: 'Lock',
-    },
-    redirect: '/acl/user',
-    children: [
-      {
-        path: '/acl/permission',
-        component: () => import('@/views/Acl/Permission/index.vue'),
-        name: 'permission',
-        meta: {
-          title: '菜单管理',
-          icon: 'Money',
-        },
-      },
-      {
-        path: '/acl/role',
-        component: () => import('@/views/Acl/Role/index.vue'),
-        name: 'role',
-        meta: {
-          title: '角色管理',
-          icon: 'Opportunity',
-        },
-      },
-      {
-        path: '/acl/user',
-        component: () => import('@/views/Acl/User/index.vue'),
-        name: 'user',
-        meta: {
-          title: '用户管理',
-          icon: 'Avatar',
-        },
-      },
-    ],
-  },
-  {
-    path: '/product',
-    component: () => import('@/components/Layout/index.vue'),
-    name: 'product',
-    meta: {
-      title: '商品管理',
-      icon: 'Box',
-    },
-    redirect: '/product/attr',
-    children: [
-      {
-        path: '/product/attr',
-        component: () => import('@/views/Product/Attr/index.vue'),
-        name: 'Attr',
-        meta: {
-          title: '属性管理',
-          icon: 'ChromeFilled',
-        },
-      },
-      {
-        path: '/product/sku',
-        component: () => import('@/views/Product/Sku/index.vue'),
-        name: 'Sku',
-        meta: {
-          title: 'Sku管理',
-          icon: 'Refrigerator',
-        },
-      },
-      {
-        path: '/product/spu',
-        component: () => import('@/views/Product/Spu/index.vue'),
-        name: 'Spu',
-        meta: {
-          title: 'Spu管理',
-          icon: 'Magnet',
-        },
-      },
-      {
-        path: '/product/tradeMark',
-        component: () => import('@/views/Product/TradeMark/index.vue'),
-        name: 'tradeMark',
-        meta: {
-          title: '品牌管理',
-          icon: 'ChromeFilled',
-        },
-      },
-    ],
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
-    name: 'Any',
-    meta: {
-      title: '任意路由',
-      hidden: true,
-      icon: 'DataLine',
-    },
-  },
 ]
 
 export const asyncRoutes = [
   {
     path: '/acl',
     component: () => import('@/components/Layout/index.vue'),
-    name: 'acl',
+    name: 'Acl',
     meta: {
       title: '权限管理',
       icon: 'Lock',
@@ -160,7 +63,7 @@ export const asyncRoutes = [
       {
         path: '/acl/permission',
         component: () => import('@/views/Acl/Permission/index.vue'),
-        name: 'permission',
+        name: 'Permission',
         meta: {
           title: '菜单管理',
           icon: 'Monitor',
@@ -169,7 +72,7 @@ export const asyncRoutes = [
       {
         path: '/acl/role',
         component: () => import('@/views/Acl/Role/index.vue'),
-        name: 'role',
+        name: 'Role',
         meta: {
           title: '角色管理',
           icon: 'UserFilled',
@@ -178,7 +81,7 @@ export const asyncRoutes = [
       {
         path: '/acl/user',
         component: () => import('@/views/Acl/User/index.vue'),
-        name: 'user',
+        name: 'User',
         meta: {
           title: '用户管理',
           icon: 'User',
@@ -189,7 +92,7 @@ export const asyncRoutes = [
   {
     path: '/product',
     component: () => import('@/components/Layout/index.vue'),
-    name: 'product',
+    name: 'Product',
     meta: {
       title: '商品管理',
       icon: 'Goods',
@@ -226,7 +129,7 @@ export const asyncRoutes = [
       {
         path: '/product/tradeMark',
         component: () => import('@/views/Product/tradeMark/index.vue'),
-        name: 'tradeMark',
+        name: 'TradeMark',
         meta: {
           title: '品牌管理',
           icon: 'ChromeFilled',

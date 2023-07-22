@@ -19,6 +19,7 @@
       @click="addRole"
       style="margin-bottom: 10px"
       icon="Plus"
+      v-has="`btn.Role.add`"
     >
       添加职位
     </el-button>

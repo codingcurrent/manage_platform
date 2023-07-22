@@ -22,6 +22,9 @@ const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
+//引入自定义指令文件
+import { hasButton } from '@/directives/has'
+hasButton(app, pinia)
 
 app.component('svgIcon', svgIcon) // 将svgIcon设为全局组件
 // 将ele+的图标注册成为组件
